@@ -41,5 +41,6 @@
         </DockPanel>
         <Button x:Name="closeButton" Content="Close" HorizontalAlignment="Left" Margin="533,206,0,0" VerticalAlignment="Top" FontSize="18" Width="100" Click="closeButton_Click"/>
         <Button x:Name="updateButton" Content="Update" HorizontalAlignment="Left" Margin="233,206,0,0" VerticalAlignment="Top" FontSize="18" Width="100" Click="updateButton_Click"/>
+        <Button x:Name="cancelButton" Content="Cancel" HorizontalAlignment="Left" Margin="533,206,0,0" VerticalAlignment="Top" FontSize="18" Width="100" Click="cancelButton_Click"/>
     </Grid>
 </Window>

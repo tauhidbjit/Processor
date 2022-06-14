@@ -115,12 +115,16 @@ namespace InventoryApp
         private void LoadDefaultButtonVisibility()
         {
             addButton.Visibility = Visibility.Visible;
+            closeButton.Visibility = Visibility.Visible;
             updateButton.Visibility = Visibility.Hidden;
+            cancelButton.Visibility = Visibility.Hidden;
         }
         private void ToggleAddUpdateButtonVisibility()
         {
             addButton.Visibility = (addButton.Visibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible);
+            closeButton.Visibility = (closeButton.Visibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible);
             updateButton.Visibility = (updateButton.Visibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible);
+            cancelButton.Visibility = (cancelButton.Visibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible);
         }
 
         private void ClearControls()
@@ -128,6 +132,12 @@ namespace InventoryApp
             vendorNameTextBox.Text = string.Empty;
             gradeTextBox.Text = string.Empty;
             serialNoTextBox.Text = string.Empty;
+        }
+
+        private void cancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            ClearControls();
+            ToggleAddUpdateButtonVisibility();
         }
     }
 }
