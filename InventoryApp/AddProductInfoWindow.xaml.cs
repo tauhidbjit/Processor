@@ -64,6 +64,7 @@ namespace InventoryApp
             using (UnitOfWork unitOfWork = new UnitOfWork())
             {
                 Battery battery = new Battery();
+                // Shoud use repository method getById like used in deleteButton_Click
                 battery = (from m in unitOfWork.Products.GetAll()
                            where m.Id == id
                            select m).Single();
@@ -99,6 +100,7 @@ namespace InventoryApp
                 int id = (productInfoDataGrid.SelectedItem as Battery).Id;
 
                 Battery battery = new Battery();
+                // Shoud use repository method getById like used in deleteButton_Click
                 battery = (from m in unitOfWork.Products.GetAll()
                            where m.Id == id
                            select m).Single();
