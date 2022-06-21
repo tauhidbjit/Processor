@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Processor.Dto", "Processor.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Processor.Repository", "Processor.Repository\Processor.Repository.csproj", "{35FA3736-14F7-4021-BBF2-9E8627E22E4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryApp", "InventoryApp\InventoryApp.csproj", "{B4E1282C-984A-4AF3-A264-162425AE9A97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryApp", "InventoryApp\InventoryApp.csproj", "{B4E1282C-984A-4AF3-A264-162425AE9A97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernDesign", "ModernDesign\ModernDesign.csproj", "{796DDEB2-3C22-46CE-B40A-897A6C0C868D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{B4E1282C-984A-4AF3-A264-162425AE9A97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4E1282C-984A-4AF3-A264-162425AE9A97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4E1282C-984A-4AF3-A264-162425AE9A97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{796DDEB2-3C22-46CE-B40A-897A6C0C868D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{796DDEB2-3C22-46CE-B40A-897A6C0C868D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{796DDEB2-3C22-46CE-B40A-897A6C0C868D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{796DDEB2-3C22-46CE-B40A-897A6C0C868D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

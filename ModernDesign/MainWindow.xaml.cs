@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace InventoryApp
+namespace ModernDesign
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -23,14 +23,6 @@ namespace InventoryApp
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void addProductInfoButton_Click(object sender, RoutedEventArgs e)
-        {
-            spinnerUserControl.Visibility = Visibility.Visible;
-            AddProductInfoWindow addProductInfoWindow = new AddProductInfoWindow();
-            addProductInfoWindow.ShowDialog();
-            spinnerUserControl.Visibility = Visibility.Hidden;
         }
     }
 }
