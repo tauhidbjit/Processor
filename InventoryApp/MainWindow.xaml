@@ -8,6 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Button x:Name="addProductInfoButton" Content="Add Product Info" HorizontalAlignment="Center" Margin="0,67,0,0" VerticalAlignment="Top" Height="55" Width="310" FontSize="24" Click="addProductInfoButton_Click"/>
-        <local:SpinnerUserControl x:Name="spinnerUserControl" Balls="10" BallSize="10" Width="200" Height="100" />
+        <!--<local:SpinnerUserControl x:Name="spinnerUserControl" Balls="10" BallSize="10" Width="200" Height="100" />-->
+        
     </Grid>
 </Window>

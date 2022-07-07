@@ -1,19 +1,9 @@
 ﻿using Processor.Database;
-using Processor.Dto.RequestModels;
 using Processor.Repository;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.Threading;
+using InventoryApp.ViewModel;
 
 namespace InventoryApp
 {
@@ -22,29 +12,43 @@ namespace InventoryApp
     /// </summary>
     public partial class AddProductInfoWindow : Window
     {
+        Thread th1;
+        StatusViewModel statusVM;
         public AddProductInfoWindow()
         {
+            statusVM = new StatusViewModel();
+            statusVM.Status = "Ready";
             InitializeComponent();
+
             LoadDefaultButtonVisibility();
             LoadDataInGrid();
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
-            Battery battery = new Battery()
-            {
-                VendorName = vendorNameTextBox.Text,
-                Grade = gradeTextBox.Text,
-                SerialNo = serialNoTextBox.Text
-            };
+            th1 = new Thread(new ThreadStart(ProcessData));
+            th1.Start();
+        }
 
-            using (UnitOfWork unitOfWork = new UnitOfWork())
+        private void ProcessData()
+        {
+            Dispatcher.Invoke(() =>
             {
-                unitOfWork.Products.Add(battery);
-                unitOfWork.Commit();
-            }
-            ClearControls();
-            LoadDataInGrid();
+                Battery battery = new Battery()
+                {
+                    VendorName = vendorNameTextBox.Text,
+                    Grade = gradeTextBox.Text,
+                    SerialNo = serialNoTextBox.Text
+                };
+
+                using (UnitOfWork unitOfWork = new UnitOfWork())
+                {
+                    unitOfWork.Products.Add(battery);
+                    unitOfWork.Commit();
+                }
+                ClearControls();
+                LoadDataInGrid();
+            });
         }
 
         private void LoadDataInGrid()
