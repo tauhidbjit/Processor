@@ -6,7 +6,7 @@ using System.Threading;
 using InventoryApp.ViewModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
+using System;
 
 namespace InventoryApp
 {
@@ -67,11 +67,21 @@ namespace InventoryApp
             ProcessData();
         }
 
+        private void UpdateStatusText(string status)
+        {
+            statusTextBlock.Dispatcher.BeginInvoke((Action)(() => statusTextBlock.Text = status));
+        }
+
         private void ProcessData()
         {
             //Application.Current.Dispatcher.Invoke(() =>
             //handler(this, new PropertyChangedEventArgs(propertyName)));
-            statusTextBlock.Text = "Data Processing is in progress..";
+
+            Hello = "Data Processing is in progress..";
+            //UpdateStatusText(Hello);
+            //Thread.Sleep(5000);
+            //statusTextBlock.Text = _Hello;
+            //DataContext = this;
             Battery battery = new Battery()
             {
                 VendorName = vendorNameTextBox.Text,
@@ -79,41 +89,26 @@ namespace InventoryApp
                 SerialNo = serialNoTextBox.Text
             };
 
-            Task.Run(() => {
-                
+            Hello = "Saving data..";
+            //UpdateStatusText(Hello);
+            //Thread.Sleep(5000);
 
+            using (UnitOfWork unitOfWork = new UnitOfWork())
+            {
+                unitOfWork.Products.Add(battery);
+                unitOfWork.Commit();
+            }
+            Hello = "Process completed";
+            //Dispatcher.BeginInvoke(() =>
+            //{
 
-
-                using (UnitOfWork unitOfWork = new UnitOfWork())
-                {
-                    unitOfWork.Products.Add(battery);
-                    unitOfWork.Commit();
-                    Thread.Sleep(5000);
-
-                }
-                Dispatcher.BeginInvoke(() =>
-                {
-
-
-                    //statusTextBlock.Text = _Hello;
-                    //DataContext = this;
-                    
-                    statusTextBlock.Text = "Product info added successfully!";
-                    //task.Wait();
-
-
-                    //_Hello = "Product info added successfully!";
-                    //ClearControls();
-                    //_Hello = "Controls cleared!";
-                    //_Hello = "Loading data..";
-                    //LoadDataInGrid();
-                    //_Hello = "Data loaded successfully!";
-                });
-            });
-            
-
-            
-
+            //    //_Hello = "Product info added successfully!";
+            //    //ClearControls();
+            //    //_Hello = "Controls cleared!";
+            //    //_Hello = "Loading data..";
+            //    //LoadDataInGrid();
+            //    //_Hello = "Data loaded successfully!";
+            //});
         }
 
         private void LoadDataInGrid()
