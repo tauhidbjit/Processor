@@ -7,6 +7,7 @@ using InventoryApp.ViewModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System;
+using System.Threading.Tasks;
 
 namespace InventoryApp
 {
@@ -78,7 +79,7 @@ namespace InventoryApp
             //handler(this, new PropertyChangedEventArgs(propertyName)));
 
             Hello = "Data Processing is in progress..";
-            //UpdateStatusText(Hello);
+            UpdateStatusText(Hello);
             //Thread.Sleep(5000);
             //statusTextBlock.Text = _Hello;
             //DataContext = this;
@@ -89,16 +90,31 @@ namespace InventoryApp
                 SerialNo = serialNoTextBox.Text
             };
 
-            Hello = "Saving data..";
-            //UpdateStatusText(Hello);
-            //Thread.Sleep(5000);
 
-            using (UnitOfWork unitOfWork = new UnitOfWork())
+            Task.Run(() =>
             {
-                unitOfWork.Products.Add(battery);
-                unitOfWork.Commit();
-            }
-            Hello = "Process completed";
+                using (UnitOfWork unitOfWork = new UnitOfWork())
+                {
+                    unitOfWork.Products.Add(battery);
+                    unitOfWork.Commit();
+                    Dispatcher.BeginInvoke(() => {
+                        LoadDataInGrid();
+                    });
+                }
+                UpdateStatusText("Product info added successfully!");
+                //Dispatcher.BeginInvoke(() =>
+                //{
+
+                //    //_Hello = "Product info added successfully!";
+
+                //    //_Hello = "Controls cleared!";
+                //    //_Hello = "Loading data..";
+                //    //LoadDataInGrid();
+                //    //_Hello = "Data loaded successfully!";
+                //});
+            });
+
+            
             //Dispatcher.BeginInvoke(() =>
             //{
 
