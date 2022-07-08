@@ -80,9 +80,7 @@ namespace InventoryApp
 
             Hello = "Data Processing is in progress..";
             UpdateStatusText(Hello);
-            //Thread.Sleep(5000);
-            //statusTextBlock.Text = _Hello;
-            //DataContext = this;
+
             Battery battery = new Battery()
             {
                 VendorName = vendorNameTextBox.Text,
@@ -90,9 +88,7 @@ namespace InventoryApp
                 SerialNo = serialNoTextBox.Text
             };
 
-            // When the following code runs, a background thread is started and execution returned to 
-            // main thread then the statusText is updated by "Data Processing is in progress.."
-            
+            // When the following code runs, a background thread is started             
             Task.Run(() =>
             {
                 using (UnitOfWork unitOfWork = new UnitOfWork())
@@ -106,6 +102,8 @@ namespace InventoryApp
                     Dispatcher.BeginInvoke(() => {
                         LoadDataInGrid();
                     });
+
+                    Thread.Sleep(5000);
                 }
 
                 // To update main thread UI from background thread 
