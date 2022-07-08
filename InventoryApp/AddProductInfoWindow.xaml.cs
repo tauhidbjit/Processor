@@ -4,36 +4,79 @@ using System.Linq;
 using System.Windows;
 using System.Threading;
 using InventoryApp.ViewModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace InventoryApp
 {
     /// <summary>
     /// Interaction logic for AddProductInfoWindow.xaml
     /// </summary>
-    public partial class AddProductInfoWindow : Window
+    public partial class AddProductInfoWindow : Window, INotifyPropertyChanged
     {
         Thread th1;
         StatusViewModel statusVM;
         public AddProductInfoWindow()
         {
-            statusVM = new StatusViewModel();
-            statusVM.Status = "Ready";
+            //statusVM = new StatusViewModel();
+            //statusVM.Status = "Ready";
             InitializeComponent();
-
+            //DataContext = statusVM;
+            DataContext = this;
+            
             LoadDefaultButtonVisibility();
             LoadDataInGrid();
         }
 
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Raises this object's PropertyChanged event.
+        /// </summary>
+        /// <param name="propertyName">The property that has a new value.</param>
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChangedEventHandler handler = this.PropertyChanged;
+            if (handler != null)
+            {
+                var e = new PropertyChangedEventArgs(propertyName);
+                handler(this, e);
+            }
+        }
+        #endregion
+
+        private string _Hello = "Ready";
+        public string Hello
+        {
+            get { return _Hello; }
+            set
+            {
+                _Hello = value;
+                OnPropertyChanged();
+            }
+        }
+
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
-            th1 = new Thread(new ThreadStart(ProcessData));
-            th1.Start();
+            //th1 = new Thread(new ThreadStart(ProcessData));
+            //th1.Start();
+            ProcessData();
         }
 
         private void ProcessData()
         {
-            Dispatcher.Invoke(() =>
+            //Application.Current.Dispatcher.Invoke(() =>
+            //handler(this, new PropertyChangedEventArgs(propertyName)));
+            Dispatcher.BeginInvoke(() =>
             {
+                Hello = "Data Processing is in progress..";
+                statusTextBlock.Text = Hello;
+                Thread.Sleep(5000);
+                //statusTextBlock.Text = _Hello;
+                //DataContext = this;
                 Battery battery = new Battery()
                 {
                     VendorName = vendorNameTextBox.Text,
@@ -41,13 +84,21 @@ namespace InventoryApp
                     SerialNo = serialNoTextBox.Text
                 };
 
+                Hello = "Saving data..";
+                statusTextBlock.Text = Hello;
+                Thread.Sleep(5000);
+
                 using (UnitOfWork unitOfWork = new UnitOfWork())
                 {
-                    unitOfWork.Products.Add(battery);
-                    unitOfWork.Commit();
+                    //unitOfWork.Products.Add(battery);
+                    //unitOfWork.Commit();
                 }
-                ClearControls();
-                LoadDataInGrid();
+                //_Hello = "Product info added successfully!";
+                //ClearControls();
+                //_Hello = "Controls cleared!";
+                //_Hello = "Loading data..";
+                //LoadDataInGrid();
+                //_Hello = "Data loaded successfully!";
             });
         }
 
