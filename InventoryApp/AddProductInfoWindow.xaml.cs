@@ -90,17 +90,28 @@ namespace InventoryApp
                 SerialNo = serialNoTextBox.Text
             };
 
-
+            // When the following code runs, a background thread is started and execution returned to 
+            // main thread then the statusText is updated by "Data Processing is in progress.."
+            
             Task.Run(() =>
             {
                 using (UnitOfWork unitOfWork = new UnitOfWork())
                 {
                     unitOfWork.Products.Add(battery);
                     unitOfWork.Commit();
+                    // To update main thread UI from background thread 
+                    // We have to use Dispatcher.BeginInvoke()
+                    // the following function communicates with UI and 
+                    // updates the grid
                     Dispatcher.BeginInvoke(() => {
                         LoadDataInGrid();
                     });
                 }
+
+                // To update main thread UI from background thread 
+                // We have to use Dispatcher.BeginInvoke()
+                // the following function communicates with UI and 
+                // updates status text
                 UpdateStatusText("Product info added successfully!");
                 //Dispatcher.BeginInvoke(() =>
                 //{
