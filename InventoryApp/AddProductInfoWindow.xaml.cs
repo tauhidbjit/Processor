@@ -6,6 +6,7 @@ using System.Threading;
 using InventoryApp.ViewModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace InventoryApp
 {
@@ -70,36 +71,49 @@ namespace InventoryApp
         {
             //Application.Current.Dispatcher.Invoke(() =>
             //handler(this, new PropertyChangedEventArgs(propertyName)));
-            Dispatcher.BeginInvoke(() =>
+            statusTextBlock.Text = "Data Processing is in progress..";
+            Battery battery = new Battery()
             {
-                Hello = "Data Processing is in progress..";
-                statusTextBlock.Text = Hello;
-                Thread.Sleep(5000);
-                //statusTextBlock.Text = _Hello;
-                //DataContext = this;
-                Battery battery = new Battery()
-                {
-                    VendorName = vendorNameTextBox.Text,
-                    Grade = gradeTextBox.Text,
-                    SerialNo = serialNoTextBox.Text
-                };
+                VendorName = vendorNameTextBox.Text,
+                Grade = gradeTextBox.Text,
+                SerialNo = serialNoTextBox.Text
+            };
 
-                Hello = "Saving data..";
-                statusTextBlock.Text = Hello;
-                Thread.Sleep(5000);
+            Task.Run(() => {
+                
+
+
 
                 using (UnitOfWork unitOfWork = new UnitOfWork())
                 {
-                    //unitOfWork.Products.Add(battery);
-                    //unitOfWork.Commit();
+                    unitOfWork.Products.Add(battery);
+                    unitOfWork.Commit();
+                    Thread.Sleep(5000);
+
                 }
-                //_Hello = "Product info added successfully!";
-                //ClearControls();
-                //_Hello = "Controls cleared!";
-                //_Hello = "Loading data..";
-                //LoadDataInGrid();
-                //_Hello = "Data loaded successfully!";
+                Dispatcher.BeginInvoke(() =>
+                {
+
+
+                    //statusTextBlock.Text = _Hello;
+                    //DataContext = this;
+                    
+                    statusTextBlock.Text = "Product info added successfully!";
+                    //task.Wait();
+
+
+                    //_Hello = "Product info added successfully!";
+                    //ClearControls();
+                    //_Hello = "Controls cleared!";
+                    //_Hello = "Loading data..";
+                    //LoadDataInGrid();
+                    //_Hello = "Data loaded successfully!";
+                });
             });
+            
+
+            
+
         }
 
         private void LoadDataInGrid()
