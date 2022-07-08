@@ -6,6 +6,7 @@ using System.Threading;
 using InventoryApp.ViewModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System;
 
 namespace InventoryApp
 {
@@ -66,40 +67,48 @@ namespace InventoryApp
             ProcessData();
         }
 
+        private void UpdateStatusText(string status)
+        {
+            statusTextBlock.Dispatcher.BeginInvoke((Action)(() => statusTextBlock.Text = status));
+        }
+
         private void ProcessData()
         {
             //Application.Current.Dispatcher.Invoke(() =>
             //handler(this, new PropertyChangedEventArgs(propertyName)));
-            Dispatcher.BeginInvoke(() =>
+
+            Hello = "Data Processing is in progress..";
+            //UpdateStatusText(Hello);
+            //Thread.Sleep(5000);
+            //statusTextBlock.Text = _Hello;
+            //DataContext = this;
+            Battery battery = new Battery()
             {
-                Hello = "Data Processing is in progress..";
-                statusTextBlock.Text = Hello;
-                Thread.Sleep(5000);
-                //statusTextBlock.Text = _Hello;
-                //DataContext = this;
-                Battery battery = new Battery()
-                {
-                    VendorName = vendorNameTextBox.Text,
-                    Grade = gradeTextBox.Text,
-                    SerialNo = serialNoTextBox.Text
-                };
+                VendorName = vendorNameTextBox.Text,
+                Grade = gradeTextBox.Text,
+                SerialNo = serialNoTextBox.Text
+            };
 
-                Hello = "Saving data..";
-                statusTextBlock.Text = Hello;
-                Thread.Sleep(5000);
+            Hello = "Saving data..";
+            //UpdateStatusText(Hello);
+            //Thread.Sleep(5000);
 
-                using (UnitOfWork unitOfWork = new UnitOfWork())
-                {
-                    //unitOfWork.Products.Add(battery);
-                    //unitOfWork.Commit();
-                }
-                //_Hello = "Product info added successfully!";
-                //ClearControls();
-                //_Hello = "Controls cleared!";
-                //_Hello = "Loading data..";
-                //LoadDataInGrid();
-                //_Hello = "Data loaded successfully!";
-            });
+            using (UnitOfWork unitOfWork = new UnitOfWork())
+            {
+                unitOfWork.Products.Add(battery);
+                unitOfWork.Commit();
+            }
+            Hello = "Process completed";
+            //Dispatcher.BeginInvoke(() =>
+            //{
+
+            //    //_Hello = "Product info added successfully!";
+            //    //ClearControls();
+            //    //_Hello = "Controls cleared!";
+            //    //_Hello = "Loading data..";
+            //    //LoadDataInGrid();
+            //    //_Hello = "Data loaded successfully!";
+            //});
         }
 
         private void LoadDataInGrid()
